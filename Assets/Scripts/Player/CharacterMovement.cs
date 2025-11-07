@@ -38,7 +38,12 @@ public class CharacterMovement : MonoBehaviour
     private Coroutine m_CJumpBuffer;
     private bool m_CanBufferJump = false;
     // Variable Jump Height
-    private float m_VariableJumpHeightDamper;
+    private float m_VariableJumpHeightDamper = 2.0f;
+    
+    //[Header("Particles")]
+    //[SerializeField] private ParticleSystem m_JumpParticles;
+    
+    //[Header("Sound")]
     
     #endregion
     
@@ -75,6 +80,14 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    public void MoveCancelled()
+    {
+        if (m_RB.linearVelocity.x > 0)
+        {
+            
+        }
+    }
+
     #endregion
 
     #region Jump
@@ -83,6 +96,10 @@ public class CharacterMovement : MonoBehaviour
     {
         // Jump-force
         m_RB.AddForce(Vector2.up * m_JumpStrength, ForceMode2D.Impulse);
+        // Jump particles
+        //m_JumpParticles.Play();
+        // Jump sound
+        
         // Jump-bool
         m_IsJumpActive = true;
         // Jump-event
@@ -116,7 +133,7 @@ public class CharacterMovement : MonoBehaviour
     {
         if (m_RB.linearVelocity.y > 0)
         {
-            m_RB.linearVelocityY /= 2;
+            m_RB.linearVelocityY /= m_VariableJumpHeightDamper;
         }
     }
     
