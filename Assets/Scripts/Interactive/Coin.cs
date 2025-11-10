@@ -6,8 +6,12 @@ public class Coin : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Coin collected!");
-        Destroy(gameObject);
+        if (collision.CompareTag("Player"))
+        {
+            Debug.Log("Coin collected!");
+            SoundManager.PlaySound(SoundType.COIN);
+            Destroy(gameObject);
+        }
         
         //if (collision.transform.parent.TryGetComponent<ScoreTracker>(out var scoreTracker))
         //{
