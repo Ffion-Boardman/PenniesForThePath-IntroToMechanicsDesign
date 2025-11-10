@@ -177,7 +177,7 @@ Transform:
   m_GameObject: {fileID: 80430128}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0468, y: -0.21547, z: -12.640018}
+  m_LocalPosition: {x: -0.0468, y: -0.21547, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -465,7 +465,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.49019608, g: 0.49019608, b: 0.49019608, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -515,7 +515,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0468, y: -0.21547, z: -12.640018}
+  m_LocalPosition: {x: -0.0468, y: -0.21547, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -563,6 +563,7 @@ GameObject:
   m_Component:
   - component: {fileID: 527607346}
   - component: {fileID: 527607347}
+  - component: {fileID: 527607348}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -579,7 +580,7 @@ Transform:
   m_GameObject: {fileID: 527607345}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0468, y: -0.21547, z: -12.640018}
+  m_LocalPosition: {x: -0.0468, y: -0.21547, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -628,6 +629,25 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
+--- !u!114 &527607348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527607345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b617507da6d07e749b7efdb34e1173e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TrackerSettings:
+    BindingMode: 4
+    PositionDamping: {x: 1, y: 1, z: 1}
+    AngularDampingMode: 0
+    RotationDamping: {x: 1, y: 1, z: 1}
+    QuaternionDamping: 1
+  FollowOffset: {x: 0, y: 0, z: -10}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,6 +860,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SoundList:
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -6101,10 +6123,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1812312543}
   - component: {fileID: 1812312542}
+  - component: {fileID: 1812312544}
   - component: {fileID: 1812312541}
   - component: {fileID: 1812312546}
   - component: {fileID: 1812312545}
-  - component: {fileID: 1812312544}
   - component: {fileID: 1812312547}
   m_Layer: 0
   m_Name: Player
@@ -6126,6 +6148,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MoveSpeed: 5
+  m_MoveForceMultiplier: 2
+  m_MoveForceCap: 5
   m_JumpStrength: 10
   m_GroundCheck: {fileID: 860217115}
   m_CoyoteTimeThreshold: 0.4
@@ -6201,7 +6225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcbaa6bb5fc1e7041aa194ee08e24b7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxHealth: 100
+  m_MaxHealth: 10
   m_CurrentHealth: 0
 --- !u!114 &1812312546
 MonoBehaviour:
@@ -6218,7 +6242,7 @@ MonoBehaviour:
   m_CharacterMovement: {fileID: 1812312541}
   m_InteractLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!114 &1812312547
 MonoBehaviour:
   m_ObjectHideFlags: 0

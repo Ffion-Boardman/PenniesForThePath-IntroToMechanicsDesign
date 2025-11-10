@@ -12,6 +12,8 @@ public class CharacterMovement : MonoBehaviour
     // Variables
     private Rigidbody2D m_RB;
     [SerializeField] private float m_MoveSpeed;
+    [SerializeField] private float m_MoveForceMultiplier;
+    [SerializeField] private float m_MoveForceCap;
 	[SerializeField] private float m_JumpStrength;
     [SerializeField] GroundCheck m_GroundCheck;
     // Movement
@@ -71,21 +73,42 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    private bool isStunned = false;
     IEnumerator C_MoveUpdate()
     {
         while (m_IsMoveActive)
         {
             yield return new WaitForFixedUpdate();
-            m_RB.linearVelocityX = m_MoveSpeed * m_InMove;
+
+            //if (!isStunned)
+            //{
+            //    m_RB.linearVelocityX = m_MoveSpeed * m_InMove;   
+            //}
+
+            // If we're actively jumping then we'll want to do an add-force so the jump doesn't feel weird
+            if (m_IsJumpActive)
+            {
+                if (Mathf.Abs(m_RB.linearVelocityX) < m_MoveSpeed)
+                {
+                    // F = m*a, we have the player's velocity, and a mass of 1
+                    m_RB.AddForceX(m_MoveSpeed * m_InMove * m_MoveForceMultiplier, ForceMode2D.Force); 
+                }
+            }
+            else if (Mathf.Abs(m_RB.linearVelocityX) < m_MoveSpeed)
+            {
+                m_RB.AddForceX(m_MoveSpeed * m_InMove * m_MoveForceMultiplier, ForceMode2D.Force);   
+            }
+            else
+            {
+                m_RB.linearVelocityX = m_MoveSpeed * m_InMove;  
+            }
+                
         }
     }
 
     public void MoveCancelled()
     {
-        if (m_RB.linearVelocity.x > 0)
-        {
-            
-        }
+        m_RB.linearVelocityX = 0;
     }
 
     #endregion
@@ -96,10 +119,8 @@ public class CharacterMovement : MonoBehaviour
     {
         // Jump-force
         m_RB.AddForce(Vector2.up * m_JumpStrength, ForceMode2D.Impulse);
-        // Jump particles
-        //m_JumpParticles.Play();
-        // Jump sound
-        
+        // NEED JUMP PARTICLES
+        // NEED JUMP SOUND
         // Jump-bool
         m_IsJumpActive = true;
         // Jump-event
@@ -153,7 +174,6 @@ public class CharacterMovement : MonoBehaviour
         m_CCoyoteTime = null;
     }
     
-    
     IEnumerator C_JumpBuffer() // This is the TIMER
     {
         m_CanBufferJump = true;
@@ -161,9 +181,7 @@ public class CharacterMovement : MonoBehaviour
         m_CanBufferJump = false;
         m_CJumpBuffer = null;
     }
-
-
-
+    
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (m_GroundCheck.m_IsGrounded)

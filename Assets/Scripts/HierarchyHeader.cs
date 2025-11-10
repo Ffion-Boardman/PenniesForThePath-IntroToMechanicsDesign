@@ -1,6 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
+#if (UNITY_EDITOR)
 /// <summary>
 /// Just a simple way of organizing my hierarchy
 /// Use "---" at the start of a GameObject name
@@ -24,3 +25,4 @@ public static class HierarchyHeader
         }
     }
 }
+#endif

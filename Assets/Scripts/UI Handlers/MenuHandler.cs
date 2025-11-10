@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class MenuHandler : MonoBehaviour
@@ -23,11 +24,13 @@ public class MenuHandler : MonoBehaviour
     private void Handle_PlayGame(ClickEvent clickEvent)
     {
         Debug.Log("Play Game pressed!");
+        SceneManager.LoadScene("Sandbox");
     }
 
     private void Handle_Exit(ClickEvent clickEvent)
     {
         Debug.Log("Exit pressed!");
+        Application.Quit();
     }
 
     private void OnEnable()

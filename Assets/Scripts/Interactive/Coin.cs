@@ -6,6 +6,7 @@ public class Coin : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // Make sure that the collider is the player
         if (collision.CompareTag("Player"))
         {
             Debug.Log("Coin collected!");

@@ -6,6 +6,7 @@ public enum SoundType
     LAND,
     FOOTSTEP,
     HURT,
+    HEAL,
     DEATH,
     COIN,
 }
