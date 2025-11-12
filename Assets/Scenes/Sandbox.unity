@@ -177,7 +177,7 @@ Transform:
   m_GameObject: {fileID: 80430128}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0468, y: -0.21547, z: -10}
+  m_LocalPosition: {x: -0.0468, y: -2.691, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -490,7 +490,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 6.338318
+  orthographic size: 3.14
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -515,7 +515,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0468, y: -0.21547, z: -10}
+  m_LocalPosition: {x: -0.0468, y: -2.691, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -580,7 +580,7 @@ Transform:
   m_GameObject: {fileID: 527607345}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0468, y: -0.21547, z: -10}
+  m_LocalPosition: {x: -0.0468, y: -2.691, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -611,7 +611,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 34
-    OrthographicSize: 6.338318
+    OrthographicSize: 3.14
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -860,13 +860,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SoundList:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 8300000, guid: 65f20e9dd0bc16d4485cefb3622f3ed5, type: 3}
+  - m_HeaderName: JUMP
+    m_Sounds:
+    - {fileID: 8300000, guid: 5876f91ba63bcd84db48d2ffff41809a, type: 3}
+    - {fileID: 8300000, guid: a3a2439367be81b46933214a4bc8ae48, type: 3}
+    - {fileID: 8300000, guid: d31e15ce306e10345a39aab58849e96a, type: 3}
+    - {fileID: 8300000, guid: a9a9d76163bc5834791d94590a235b6c, type: 3}
+    - {fileID: 8300000, guid: cfdae4bfd71e6294a82a8d89d42ebdd8, type: 3}
+    - {fileID: 8300000, guid: cc6f2f8126b3d2841ba55ab8cfb6f7e3, type: 3}
+  - m_HeaderName: LAND
+    m_Sounds:
+    - {fileID: 8300000, guid: 175b45ff3fb6bf74997c63902cacebf6, type: 3}
+    - {fileID: 8300000, guid: 9586b9b947f96f3458c2f804a7f35713, type: 3}
+    - {fileID: 8300000, guid: 1b442fb2b56a9ba4f87330c11218aa6d, type: 3}
+  - m_HeaderName: FOOTSTEP
+    m_Sounds:
+    - {fileID: 8300000, guid: 2ec6a3ccf83fa784397a2b0f21e5efc3, type: 3}
+    - {fileID: 8300000, guid: 5e11e5c4bd7650e4e8b15a28d85b0db6, type: 3}
+  - m_HeaderName: HURT
+    m_Sounds:
+    - {fileID: 8300000, guid: ce11ed6f2387ace4ea0a4934f01f0b0c, type: 3}
+    - {fileID: 8300000, guid: 349c7794c174e1c4eb88803d7406232a, type: 3}
+    - {fileID: 8300000, guid: e6cb4011de42e774a8891675199b9fd0, type: 3}
+    - {fileID: 8300000, guid: 62edccec3f344704e8368b88546e42ae, type: 3}
+  - m_HeaderName: HEAL
+    m_Sounds:
+    - {fileID: 8300000, guid: ce2dd37eca1577041a229cd2328c77f7, type: 3}
+    - {fileID: 8300000, guid: accda86722b7409418c45da320d6cc67, type: 3}
+    - {fileID: 8300000, guid: 0c10d4874df64bb4e84df7fd7a0f8d15, type: 3}
+  - m_HeaderName: DEATH
+    m_Sounds:
+    - {fileID: 8300000, guid: ff260d0e4a1b1d243a412aa95567aedf, type: 3}
+  - m_HeaderName: COIN
+    m_Sounds:
+    - {fileID: 8300000, guid: 07ba0ad37475d014bab7a5ec38254dca, type: 3}
+    - {fileID: 8300000, guid: 7c2155e925626f742967b9e078e7c5a4, type: 3}
+    - {fileID: 8300000, guid: a9c0beaf8470ade48a75fdec4be810fc, type: 3}
+    - {fileID: 8300000, guid: 16cd954eb6008f6458f6f55470ec72f2, type: 3}
+    - {fileID: 8300000, guid: 2ea34628b3fcd30429080e8a926b12dd, type: 3}
+    - {fileID: 8300000, guid: 280624d22e50da0478d74ca40542928f, type: 3}
+    - {fileID: 8300000, guid: f5189db1c5b40964b8ea9a59c6133a06, type: 3}
+    - {fileID: 8300000, guid: 568001a77979b7b4ebb050d22563e386, type: 3}
+    - {fileID: 8300000, guid: 554addc0aee697c4eb1102c4af81d22a, type: 3}
+    - {fileID: 8300000, guid: d2b3570f3395f294e8be81792686fd37, type: 3}
 --- !u!4 &666458166
 Transform:
   m_ObjectHideFlags: 0
@@ -1083,6 +1119,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1107830935}
   - component: {fileID: 1107830936}
+  - component: {fileID: 1107830937}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Player
@@ -1100,8 +1137,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.35, y: 0.35, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1812312543}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1149,9 +1186,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 4370152916743493274, guid: abd7016e35fa77e44b2a6377d48a3a0e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -1160,6 +1197,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1107830937
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107830934}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eaae65b1000383642a8b1e21185ba7aa, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1109636312
 GameObject:
   m_ObjectHideFlags: 0
@@ -6147,11 +6206,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 093c389fc7992de44a98cf05f09ea1f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_GroundCheck: {fileID: 860217115}
+  m_Animator: {fileID: 1107830937}
   m_MoveSpeed: 5
   m_MoveForceMultiplier: 2
   m_MoveForceCap: 5
   m_JumpStrength: 10
-  m_GroundCheck: {fileID: 860217115}
   m_CoyoteTimeThreshold: 0.4
   m_JumpBufferThreshold: 0.4
 --- !u!50 &1812312542
@@ -6180,7 +6240,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!4 &1812312543
 Transform:
   m_ObjectHideFlags: 0
@@ -6190,7 +6250,7 @@ Transform:
   m_GameObject: {fileID: 1812312540}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0468, y: -0.21547, z: 0}
+  m_LocalPosition: {x: -0.0468, y: -2.691, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

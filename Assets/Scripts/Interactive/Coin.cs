@@ -10,7 +10,10 @@ public class Coin : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             Debug.Log("Coin collected!");
-            SoundManager.PlaySound(SoundType.COIN);
+            
+            // Playing the right coin sound
+            SoundManager.PlaySound(SoundType.COIN, 1);
+            
             Destroy(gameObject);
         }
         

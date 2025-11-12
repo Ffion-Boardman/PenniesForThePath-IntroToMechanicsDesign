@@ -8,50 +8,55 @@ public class CharacterMovement : MonoBehaviour
 {
     #region Values
     
+    [Header("External Variables")]
+    [SerializeField] GroundCheck m_GroundCheck;
+    [SerializeField] private Animator m_Animator;
+    
     [Header("Basic Movement")]
-    // Variables
-    private Rigidbody2D m_RB;
     [SerializeField] private float m_MoveSpeed;
     [SerializeField] private float m_MoveForceMultiplier;
     [SerializeField] private float m_MoveForceCap;
 	[SerializeField] private float m_JumpStrength;
-    [SerializeField] GroundCheck m_GroundCheck;
+    private Rigidbody2D m_RB;
+    
     // Movement
     private float m_InMove;
     private PlayerControls m_ActionMap;
     // Movement Update
     private Coroutine m_CMove;
     private bool m_IsMoveActive;
+    
+    // Sprite Flipping (for the animator)
+    private float m_OriginalScaleX;
+    
     // Jump Update
     private Coroutine m_CJump;
-    private bool m_IsJumpActive = false;
+    private bool m_IsJumpActive = false; 
+    
     /// <summary>
     /// This event is called for the sake of the Collider-Controller script
     /// </summary>
     public event Action<bool> m_PlayerJumped;
 
     [Header("Forgiveness Mechanics")]
-    // Coyote Time
     [SerializeField] [Range(0, 0.5f)] private float m_CoyoteTimeThreshold = 0.4f;
     private Coroutine m_CCoyoteTime;
     private bool m_CanCoyoteJump = false;
+    
     // Jump Buffer
     [SerializeField] [Range(0, 0.5f)] private float m_JumpBufferThreshold = 0.4f;
     private Coroutine m_CJumpBuffer;
     private bool m_CanBufferJump = false;
+    
     // Variable Jump Height
     private float m_VariableJumpHeightDamper = 2.0f;
-    
-    //[Header("Particles")]
-    //[SerializeField] private ParticleSystem m_JumpParticles;
-    
-    //[Header("Sound")]
     
     #endregion
     
     private void Awake()
     {
 		m_RB = GetComponent<Rigidbody2D>();
+        m_OriginalScaleX = transform.localScale.x;
     }
     
     #region Movement
@@ -72,6 +77,21 @@ public class CharacterMovement : MonoBehaviour
             m_CMove = StartCoroutine(C_MoveUpdate());
         }
     }
+    
+    // Flips the sprite for the character-animator
+    private void HandleSpriteFlipping()
+    {
+        if (m_InMove > 0) 
+        {
+            // Moving right
+            transform.localScale = new Vector3(-m_OriginalScaleX, transform.localScale.y, transform.localScale.z);
+        }
+        else if (m_InMove < 0)
+        {
+            // Moving left
+            transform.localScale = new Vector3(m_OriginalScaleX, transform.localScale.y, transform.localScale.z);
+        }
+    }
 
     private bool isStunned = false;
     IEnumerator C_MoveUpdate()
@@ -79,12 +99,14 @@ public class CharacterMovement : MonoBehaviour
         while (m_IsMoveActive)
         {
             yield return new WaitForFixedUpdate();
-
+            
+            m_RB.linearVelocityX = m_MoveSpeed * m_InMove;  
+            
+            /*
             //if (!isStunned)
             //{
             //    m_RB.linearVelocityX = m_MoveSpeed * m_InMove;   
             //}
-
             // If we're actively jumping then we'll want to do an add-force so the jump doesn't feel weird
             if (m_IsJumpActive)
             {
@@ -102,7 +124,8 @@ public class CharacterMovement : MonoBehaviour
             {
                 m_RB.linearVelocityX = m_MoveSpeed * m_InMove;  
             }
-                
+            */
+            
         }
     }
 
@@ -119,14 +142,21 @@ public class CharacterMovement : MonoBehaviour
     {
         // Jump-force
         m_RB.AddForce(Vector2.up * m_JumpStrength, ForceMode2D.Impulse);
-        // NEED JUMP PARTICLES
-        // NEED JUMP SOUND
+        
         // Jump-bool
         m_IsJumpActive = true;
+        
         // Jump-event
         m_PlayerJumped?.Invoke(true);
+        
+        // Jump-sound
+        SoundManager.PlayRandomSound(SoundType.JUMP);
+        
+        // Jump-particles
+        // PUT SYSTEM-CALLER HERE
+        
         // Jump-update
-        //StartCoroutine(C_JumpUpdate());
+        StartCoroutine(C_JumpUpdate());
     }
     
     public void JumpPerformed() // When the player ATTEMPTS to jump (presses space)
@@ -162,6 +192,8 @@ public class CharacterMovement : MonoBehaviour
     {
         while (m_IsJumpActive)
         {
+            // Jump-animation
+            m_Animator.SetBool("isJumping", !m_GroundCheck.m_IsGrounded);
             yield return new WaitForFixedUpdate();
         }
     }
@@ -190,6 +222,9 @@ public class CharacterMovement : MonoBehaviour
             m_IsJumpActive = false;
             m_PlayerJumped?.Invoke(false);
             
+            // Jump-animation
+            m_Animator.SetBool("isJumping", !m_GroundCheck.m_IsGrounded);
+            
             // If the jump-buffer was successfully used, execute a jump!
             if (m_CanBufferJump)
             {
@@ -211,6 +246,14 @@ public class CharacterMovement : MonoBehaviour
             // Execute the Coyote-Timer
             m_CCoyoteTime = StartCoroutine(C_CoyoteTime());
         }
+    }
+
+    private void FixedUpdate()
+    {
+        // Movement animations
+        m_Animator.SetFloat("xVelocity", Mathf.Abs(m_RB.linearVelocityX));
+        m_Animator.SetFloat("yVelocity", m_RB.linearVelocityY);
+        HandleSpriteFlipping();
     }
     
     #endregion
