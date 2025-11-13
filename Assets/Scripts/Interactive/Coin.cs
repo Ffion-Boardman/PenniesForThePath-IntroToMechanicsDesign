@@ -12,7 +12,7 @@ public class Coin : MonoBehaviour
             Debug.Log("Coin collected!");
             
             // Playing the right coin sound
-            SoundManager.PlaySound(SoundType.COIN, 1);
+            SoundManager.PlaySound(SoundType.COIN, 1, 1);
             
             Destroy(gameObject);
         }

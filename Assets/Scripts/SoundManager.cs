@@ -31,7 +31,7 @@ public class SoundManager : MonoBehaviour
         m_AudioSource = GetComponent<AudioSource>();
     }
     
-    public static void PlaySound( SoundType sound, int clipIndex, float volume = 1)
+    public static void PlaySound( SoundType sound, int clipIndex, float volume)
     {
         // Get the array of clips for the specified sound-type
         AudioClip[] clips = m_Instance.m_SoundList[(int)sound].sounds;
@@ -51,7 +51,7 @@ public class SoundManager : MonoBehaviour
         }
     }
     
-    public static void PlayRandomSound( SoundType sound, float volume = 1)
+    public static void PlayRandomSound( SoundType sound, float volume)
     {
         // Get the array of clips for the specified sound-type
         AudioClip[] clips = m_Instance.m_SoundList[(int)sound].sounds;

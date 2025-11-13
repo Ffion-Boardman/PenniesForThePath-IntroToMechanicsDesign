@@ -1120,6 +1120,7 @@ GameObject:
   - component: {fileID: 1107830935}
   - component: {fileID: 1107830936}
   - component: {fileID: 1107830937}
+  - component: {fileID: 1107830938}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Player
@@ -1219,6 +1220,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1107830938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107830934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4bc535d29d8ec74c923fd279513ef38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CharacterMovement: {fileID: 1812312541}
 --- !u!1 &1109636312
 GameObject:
   m_ObjectHideFlags: 0
@@ -6212,8 +6226,10 @@ MonoBehaviour:
   m_MoveForceMultiplier: 2
   m_MoveForceCap: 5
   m_JumpStrength: 10
-  m_CoyoteTimeThreshold: 0.4
-  m_JumpBufferThreshold: 0.4
+  m_JumpVolume: 0.5
+  m_FootstepVolume: 0.1
+  m_CoyoteTimeThreshold: 0.2
+  m_JumpBufferThreshold: 0.1
 --- !u!50 &1812312542
 Rigidbody2D:
   serializedVersion: 5

@@ -37,6 +37,10 @@ public class CharacterMovement : MonoBehaviour
     /// This event is called for the sake of the Collider-Controller script
     /// </summary>
     public event Action<bool> m_PlayerJumped;
+    
+    [Header("Movement Sounds")]
+    [SerializeField] [Range(0, 1)] public float m_JumpVolume;
+    [SerializeField] [Range(0, 1)] public float m_FootstepVolume;
 
     [Header("Forgiveness Mechanics")]
     [SerializeField] [Range(0, 0.5f)] private float m_CoyoteTimeThreshold = 0.4f;
@@ -150,7 +154,7 @@ public class CharacterMovement : MonoBehaviour
         m_PlayerJumped?.Invoke(true);
         
         // Jump-sound
-        SoundManager.PlayRandomSound(SoundType.JUMP);
+        SoundManager.PlayRandomSound(SoundType.JUMP, m_JumpVolume);
         
         // Jump-particles
         // PUT SYSTEM-CALLER HERE
