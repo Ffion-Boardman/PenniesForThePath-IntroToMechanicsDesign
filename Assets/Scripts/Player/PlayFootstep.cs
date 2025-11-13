@@ -9,12 +9,12 @@ public class PlayFootstep : MonoBehaviour
     {
         if (StepType == 0)
         {
-            SoundManager.PlaySound(SoundType.FOOTSTEP, StepType, m_CharacterMovement.m_FootstepVolume);
+            SoundManager.PlaySound(SoundType.FOOTSTEP, 0, m_CharacterMovement.m_FootstepVolume);
             StepType = 1;
         }
         else
         {
-            SoundManager.PlaySound(SoundType.FOOTSTEP, StepType, m_CharacterMovement.m_FootstepVolume);
+            SoundManager.PlaySound(SoundType.FOOTSTEP, 1, m_CharacterMovement.m_FootstepVolume);
             StepType = 0;
         }
         

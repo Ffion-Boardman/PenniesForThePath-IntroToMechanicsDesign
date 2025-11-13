@@ -16,6 +16,7 @@ public enum SoundType
 [RequireComponent(typeof(AudioSource)), ExecuteInEditMode]
 public class SoundManager : MonoBehaviour
 {
+    private CustomLogger CL;
     // Array of the sound list components
     [SerializeField] private SoundList[] m_SoundList;
     private static SoundManager m_Instance;
@@ -37,7 +38,7 @@ public class SoundManager : MonoBehaviour
         AudioClip[] clips = m_Instance.m_SoundList[(int)sound].sounds;
         
         // Check that the request is valid (e.g: if you select '3' when there's only 2 sounds)
-        if (clipIndex > 0 && clipIndex < clips.Length)
+        if (clipIndex >= 0 && clipIndex < clips.Length)
         {
             // Get that specific clip
             AudioClip clip = clips[clipIndex];
@@ -47,7 +48,7 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Sound Index out of range");
+            Debug.LogWarning($"<b><color=grey>[AUDIO]</color> Sound index <color=yellow>{clipIndex}</color> is out of range</b> (Clip range maximum: {clips.Length})");
         }
     }
     
