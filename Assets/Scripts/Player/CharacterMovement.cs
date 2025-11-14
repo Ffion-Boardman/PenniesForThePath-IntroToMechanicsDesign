@@ -11,6 +11,7 @@ public class CharacterMovement : MonoBehaviour
     [Header("External Variables")]
     [SerializeField] GroundCheck m_GroundCheck;
     [SerializeField] private Animator m_Animator;
+    [SerializeField] private PlayerParticles m_PlayerParticles;
     
     [Header("Basic Movement")]
     [SerializeField] private float m_MoveSpeed;
@@ -157,7 +158,7 @@ public class CharacterMovement : MonoBehaviour
         SoundManager.PlayRandomSound(SoundType.JUMP, m_JumpVolume);
         
         // Jump-particles
-        // PUT SYSTEM-CALLER HERE
+        m_PlayerParticles.PlaySystem();
         
         // Jump-update
         StartCoroutine(C_JumpUpdate());
