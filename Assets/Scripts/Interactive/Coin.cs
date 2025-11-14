@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    [SerializeField] private float value;
+    [SerializeField] private int value;
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // Make sure that the collider is the player
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("Coin collected!");
+            Debug.Log("<b><color=grey>[GAME]</color> <color=yellow>Coin collected!</color></b>");
             
             // Playing the right coin sound
             SoundManager.PlaySound(SoundType.COIN, 1, 1);

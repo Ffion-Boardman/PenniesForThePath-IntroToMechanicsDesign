@@ -13,22 +13,22 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         m_HealthComponent.OnDamaged += Handle_OnHealthDamage;
-        m_HealthComponent.onDead += Handle_OnPlayerDies;
+        m_HealthComponent.OnDead += Handle_OnPlayerDies;
     }
 
     private void OnDestroy()
     {
         m_HealthComponent.OnDamaged -= Handle_OnHealthDamage;
-        m_HealthComponent.onDead -= Handle_OnPlayerDies;
+        m_HealthComponent.OnDead -= Handle_OnPlayerDies;
     }
 
-    private void Handle_OnHealthDamage(float currentHealth, float maxHealth, float inboundDamage)
+    private void Handle_OnHealthDamage(int currentHealth, int maxHealth, int inboundDamage)
     {
-        Debug.Log($"Current Health is: {currentHealth} out of: {maxHealth} and Damage received was: {inboundDamage}");
+        Debug.Log($"<b><color=grey>[GAME]</color> Current Health is: <color=yellow>{currentHealth}</color>/<color=green>{maxHealth}</color> and Damage received was <color=red>{inboundDamage}</color></b>");
     }
 
     private void Handle_OnPlayerDies(MonoBehaviour causer)
     {
-        Debug.Log($"Our player died, due to {causer.gameObject.name}");
+        Debug.Log($"<b><color=grey>[GAME]</color> Player has <color=red>died</color> due to: <color=yellow>{causer.gameObject.name}</color></b>");
     }
 }

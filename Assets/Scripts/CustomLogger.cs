@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CustomLogger : MonoBehaviour
 {
+    /*
     string Red = "<b><color=red>";
     string Orange = "<b><color=orange>";
     string Yellow = "<b><color=yellow>";
@@ -23,4 +24,5 @@ public class CustomLogger : MonoBehaviour
     {
         Debug.Log($"<color=green><b>Reminder: </b></color> {entry}");
     }
+    */
 }

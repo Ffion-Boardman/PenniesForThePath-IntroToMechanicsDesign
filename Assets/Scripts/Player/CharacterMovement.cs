@@ -168,7 +168,7 @@ public class CharacterMovement : MonoBehaviour
         // If jump isn't already active, AND if we're grounded, OR we're within coyote-limits: jump immediately
         if ( (m_GroundCheck.m_IsGrounded || m_CanCoyoteJump))
         {
-            if (m_CanCoyoteJump) { Debug.Log("Coyote-Time Used!"); }
+            if (m_CanCoyoteJump) { Debug.Log("<b><color=grey>[FORGIVENESS]</color> Coyote-Time Used!</b>"); }
             ExecuteJump();
         }
         // If we're not grounded OR within coyote-limits: start the jump-buffer timer
@@ -232,7 +232,7 @@ public class CharacterMovement : MonoBehaviour
             // If the jump-buffer was successfully used, execute a jump!
             if (m_CanBufferJump)
             {
-                Debug.Log("Jump Buffer Used!");
+                Debug.Log("<b><color=grey>[FORGIVENESS]</color> Jump-Buffer Used!</b>");
                 ExecuteJump();
             }
         }

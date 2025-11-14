@@ -3,23 +3,23 @@ using UnityEngine;
 
 public class HealthComponent : MonoBehaviour
 {
-    public event Action<float, float, float> OnDamaged;
-    public event Action<MonoBehaviour> onDead;
+    public event Action<int, int, int> OnDamaged;
+    public event Action<MonoBehaviour> OnDead;
 
-    [SerializeField] private float m_MaxHealth;
-    [SerializeField] private float m_CurrentHealth;
+    [SerializeField] private int m_MaxHealth;
+    [SerializeField] private int m_CurrentHealth;
     
     void Start()
     {
         m_CurrentHealth = m_MaxHealth;
     }
 
-    public void ApplyDamage(float damage, MonoBehaviour causer)
+    public void ApplyDamage(int damage, MonoBehaviour causer)
     {
-        float change = Mathf.Min(m_CurrentHealth, damage);
+        int change = Mathf.Min(m_CurrentHealth, damage);
         m_CurrentHealth -= change;
         
         OnDamaged?.Invoke(m_CurrentHealth, m_MaxHealth, damage);
-        if (m_CurrentHealth == 0) { onDead?.Invoke(causer); }
+        if (m_CurrentHealth == 0) { OnDead?.Invoke(causer); }
     }
 }
