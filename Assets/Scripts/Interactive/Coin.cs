@@ -1,28 +1,37 @@
+using System.Collections;
 using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    [SerializeField] private int value;
+    private SpriteRenderer m_SpriteRenderer;
+    [SerializeField] private ParticleSystem m_CollectionParticles;
+    private Coroutine m_CollectionCoroutine;
+
+    private void Start()
+    {
+        m_SpriteRenderer = GetComponent<SpriteRenderer>();
+    }
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Make sure that the collider is the player
-        if (collision.CompareTag("Player"))
+        if (collision.transform.parent.TryGetComponent<ScoreTracker>(out var scoreTracker))
         {
-            Debug.Log("<b><color=grey>[GAME]</color> <color=yellow>Coin collected!</color></b>");
-            
-            // Playing the right coin sound
-            SoundManager.PlaySound(SoundType.COIN, 1, 1);
-            
-            Destroy(gameObject);
+            // Update the score
+            scoreTracker.ApplyScore(1, this);
+            // Play VFX
+            m_CollectionParticles.Play();
+            // Start timer
+            StartCoroutine(C_CollectionCoroutine());
         }
-        
-        //if (collision.transform.parent.TryGetComponent<ScoreTracker>(out var scoreTracker))
-        //{
-        //    scoreTracker.ApplyScore(value, this);
-        //    // Play sound effect here
-        //    // Play VFX here
-        //    Destroy(gameObject);
-        //}
+    }
+
+    IEnumerator C_CollectionCoroutine()
+    {
+        // Hide the sprite whilst the particles play
+        m_SpriteRenderer.enabled = false;
+        // Wait until the particles are done
+        yield return new WaitForSeconds(2);
+        // Now get rid of the game object
+        Destroy(gameObject);
     }
 }
