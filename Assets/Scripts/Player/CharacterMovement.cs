@@ -105,7 +105,12 @@ public class CharacterMovement : MonoBehaviour
         {
             yield return new WaitForFixedUpdate();
             
-            m_RB.linearVelocityX = m_MoveSpeed * m_InMove;  
+            m_RB.linearVelocityX = m_MoveSpeed * m_InMove;
+
+            if (!m_IsJumpActive)
+            {
+                m_PlayerParticles.PlaySystem(m_PlayerParticles.m_RunParticles);
+            }
             
             /*
             //if (!isStunned)
@@ -137,6 +142,8 @@ public class CharacterMovement : MonoBehaviour
     public void MoveCancelled()
     {
         m_RB.linearVelocityX = 0;
+        
+        m_PlayerParticles.StopSystem(m_PlayerParticles.m_RunParticles);
     }
 
     #endregion
@@ -158,7 +165,7 @@ public class CharacterMovement : MonoBehaviour
         SoundManager.PlayRandomSound(SoundType.JUMP, m_JumpVolume);
         
         // Jump-particles
-        m_PlayerParticles.PlaySystem();
+        m_PlayerParticles.PlaySystem(m_PlayerParticles.m_JumpParticles);
         
         // Jump-update
         StartCoroutine(C_JumpUpdate());

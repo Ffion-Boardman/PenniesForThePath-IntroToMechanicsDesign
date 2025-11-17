@@ -2,10 +2,16 @@ using UnityEngine;
 
 public class PlayerParticles : MonoBehaviour
 {
-    [SerializeField] private ParticleSystem m_JumpParticles;
+    [SerializeField] public ParticleSystem m_JumpParticles;
+    [SerializeField] public ParticleSystem m_RunParticles;
     
-    public void PlaySystem()
+    public void PlaySystem(ParticleSystem system)
     {
-        m_JumpParticles.Play();
+        system.Play();
+    }
+    
+    public void StopSystem(ParticleSystem system)
+    {
+        system.Stop();
     }
 }

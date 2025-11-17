@@ -3,6 +3,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private HealthComponent m_HealthComponent;
+    private SpriteRenderer m_SpriteRenderer;
+    private Sprite m_SpriteDeath;
+    private Sprite m_SpriteHurt;
 
     private void Awake()
     {
@@ -12,6 +15,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        m_SpriteRenderer  = GetComponent<SpriteRenderer>();
+        
         m_HealthComponent.OnDamaged += Handle_OnHealthDamage;
         m_HealthComponent.OnDead += Handle_OnPlayerDies;
     }
