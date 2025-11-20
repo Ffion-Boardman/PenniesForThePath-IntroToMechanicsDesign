@@ -1,0 +1,16 @@
+VisualElement {}
+
+#HeartContainer {
+    position: absolute;
+    left: 30px;
+    top: 20px;
+    flex-direction: row;
+    height: 100px;
+}
+
+.heart-icon {
+    width: 100px;
+    height: 100px;
+    margin-right: 1px;
+    background-size: contain;
+}

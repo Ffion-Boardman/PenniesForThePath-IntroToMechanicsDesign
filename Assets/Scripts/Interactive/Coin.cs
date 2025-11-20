@@ -20,8 +20,7 @@ public class Coin : MonoBehaviour
         {
             // Update the score
             scoreTracker.ApplyScore(1, this);
-            // Play VFX
-            m_CollectionParticles.Play();
+            
             // Start timer
             StartCoroutine(C_CollectionCoroutine());
         }
@@ -32,8 +31,13 @@ public class Coin : MonoBehaviour
         // Hide the sprite whilst the particles play
         m_SpriteRenderer.enabled = false;
         m_CircleCollider2D.enabled = false;
+        
+        // Play VFX particles
+        m_CollectionParticles.Play();
+        
         // Wait until the particles are done
         yield return new WaitForSeconds(2);
+        
         // Now get rid of the game object
         Destroy(this.gameObject);
     }

@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HealthComponent : MonoBehaviour
@@ -9,7 +10,11 @@ public class HealthComponent : MonoBehaviour
     [SerializeField] private int m_MaxHealth;
     [SerializeField] private int m_CurrentHealth;
     
-    void Start()
+    // These are for the health UI
+    public int MaxHealth => m_MaxHealth;
+    public int CurrentHealth => m_CurrentHealth;
+    
+    void Awake()
     {
         m_CurrentHealth = m_MaxHealth;
     }

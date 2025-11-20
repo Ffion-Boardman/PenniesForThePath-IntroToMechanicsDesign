@@ -1,0 +1,4 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/PlayerHealth/HealthStyles.uss?fileID=7433441132597879392&amp;guid=64f79a827374fae45a681d8968f21637&amp;type=3#HealthStyles" />
+    <ui:VisualElement name="HeartContainer" style="flex-grow: 0; width: 244px; flex-direction: row; justify-content: space-between; height: 78px; flex-shrink: 1;" />
+</ui:UXML>
