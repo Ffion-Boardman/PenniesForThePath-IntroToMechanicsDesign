@@ -43,6 +43,7 @@ public class CharacterMovement : MonoBehaviour
     [Header("Movement Sounds")]
     [SerializeField] [Range(0, 1)] public float m_JumpVolume;
     [SerializeField] [Range(0, 1)] public float m_FootstepVolume;
+    [SerializeField] [Range(0, 1)] public float m_LandVolume;
 
     [Header("Forgiveness Mechanics")]
     [SerializeField] [Range(0, 0.5f)] private float m_CoyoteTimeThreshold = 0.4f;
@@ -92,7 +93,7 @@ public class CharacterMovement : MonoBehaviour
         }
         
         // Stop whatever movement is happening already and then apply the knockback force
-        m_RB.velocity = Vector2.zero; // Stops all the initial momentum (which was causing issues before lol)
+        //m_RB.velocity = Vector2.zero; // Stops all the initial momentum (which was causing issues before lol)
         m_RB.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
         
         // Play the player-hurt particles
@@ -117,7 +118,7 @@ public class CharacterMovement : MonoBehaviour
         while (timer < duration)
         {
             // Toggle flashing effect
-            m_SpriteRenderer.color = new Color(1, 0.3f, 0.3f, 1);
+            m_SpriteRenderer.color = new Color(1, 0.5f, 0.5f, 1);
             
             // Add to the timer
             timer += m_FlashInterval;
@@ -181,8 +182,11 @@ public class CharacterMovement : MonoBehaviour
         while (m_IsMoveActive)
         {
             yield return new WaitForFixedUpdate();
-            
-            m_RB.linearVelocityX = m_MoveSpeed * m_InMove;
+
+            if (!IsStunned)
+            {
+                m_RB.linearVelocityX = m_MoveSpeed * m_InMove;
+            }
 
             if (!m_IsJumpActive)
             {
@@ -295,6 +299,9 @@ public class CharacterMovement : MonoBehaviour
             m_IsJumpActive = false;
             m_PlayerJumped?.Invoke(false);
             
+            // Play the landing sound
+            SoundManager.PlayRandomSound(SoundType.LAND, m_LandVolume);
+            
             // Jump-animation
             m_Animator.SetBool("isJumping", !m_GroundCheck.m_IsGrounded);
             
@@ -330,4 +337,9 @@ public class CharacterMovement : MonoBehaviour
     }
     
     #endregion
+
+    public Vector2 GetVelocity()
+    {
+        return m_RB.linearVelocity;
+    }
 }

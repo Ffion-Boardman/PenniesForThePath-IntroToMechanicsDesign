@@ -59,6 +59,8 @@ public class ScoreTracker : MonoBehaviour
             OnCoinLost?.Invoke(m_CurrentCoins, m_MaxCoins, -m_Change);
             m_CoinLossParticles.maxParticles = m_Change;
             m_CoinLossParticles.Play();
+            
+            Debug.Log($"<b><color=grey>[GAME]</color> Current Score: <color=yellow>{m_CurrentCoins}/{m_MaxCoins}</color></b>");
         }
     }
 }

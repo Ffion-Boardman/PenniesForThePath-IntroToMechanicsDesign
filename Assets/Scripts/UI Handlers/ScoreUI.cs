@@ -58,7 +58,5 @@ public class ScoreUI : MonoBehaviour
         {
             m_ScoreLabel.RemoveFromClassList(MAX_SCORE_CLASS);
         }
-
-        Debug.Log($"<b><color=grey>[UI]</color> Score display updated to: <color=yellow>{m_ScoreLabel.text}</color></b>");
     }
 }
