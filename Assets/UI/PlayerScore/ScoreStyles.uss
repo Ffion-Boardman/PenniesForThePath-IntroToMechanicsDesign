@@ -1,0 +1,34 @@
+VisualElement {
+}
+
+#ScoreContainer {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+}
+
+#CoinIcon {
+    width: 75px;
+    height: 75px;
+    margin-right: 8px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url("project://database/Assets/Sprites/Other/coin.png?fileID=2800000&guid=3b00f52d659c433469b2ab626c478522&type=3#coin");
+}
+
+#ScoreCountLabel {
+    font-size: 50px;
+    color: white;
+    white-space: nowrap;
+    -unity-text-outline-width: 3px;
+    -unity-text-outline-color: black;
+}
+
+#ScoreCountLabel.max-score-color {
+    color: #feae34;
+    -unity-text-outline-width: 5px;
+    -unity-text-outline-color: #f7941d;
+}

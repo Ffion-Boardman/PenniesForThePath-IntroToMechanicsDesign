@@ -1,0 +1,7 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/PlayerScore/ScoreStyles.uss?fileID=7433441132597879392&amp;guid=247966eb5a8787a488aeea20773b49fc&amp;type=3#ScoreStyles" />
+    <ui:VisualElement name="ScoreContainer" style="flex-grow: 1;">
+        <ui:Label name="ScoreCountLabel" style="align-self: flex-end; align-content: auto; align-items: auto; -unity-font-definition: url(&quot;project://database/Assets/Fonts/Font_RockinRecord.ttf?fileID=12800000&amp;guid=d1247f145d7635248878ae11fdd7b5bb&amp;type=3#Font_RockinRecord&quot;);" />
+        <ui:VisualElement name="CoinIcon" style="flex-grow: 1;" />
+    </ui:VisualElement>
+</ui:UXML>

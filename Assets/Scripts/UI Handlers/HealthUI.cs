@@ -59,7 +59,6 @@ public class HealthUI : MonoBehaviour
             // Create a visual for the heart
             VisualElement heart = new VisualElement();
             heart.name = "Heart_" +i;
-            Debug.Log($"<b><color=grey>[UI]</color> Created '<color=yellow>{heart.name}</color>'</b>");
             
             // Set the initial image
             heart.style.backgroundImage = m_FullHeartTexture;

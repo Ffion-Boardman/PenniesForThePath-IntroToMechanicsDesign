@@ -12,6 +12,7 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] GroundCheck m_GroundCheck;
     [SerializeField] private Animator m_Animator;
     [SerializeField] private PlayerParticles m_PlayerParticles;
+    [SerializeField] private SpriteRenderer m_SpriteRenderer;
     
     [Header("Basic Movement")]
     [SerializeField] private float m_MoveSpeed;
@@ -55,6 +56,14 @@ public class CharacterMovement : MonoBehaviour
     
     // Variable Jump Height
     private float m_VariableJumpHeightDamper = 2.0f;
+
+    [Header("Stun & Damage")] 
+    [SerializeField] private float m_StunDuration = 1.5f;
+    [SerializeField] private float m_FlashInterval = 0.1f;
+    [SerializeField] public ParticleSystem m_DamageParticles;
+    
+    private Coroutine m_CStun;
+    private bool m_IsStunned = false;
     
     #endregion
     
@@ -63,6 +72,75 @@ public class CharacterMovement : MonoBehaviour
 		m_RB = GetComponent<Rigidbody2D>();
         m_OriginalScaleX = transform.localScale.x;
     }
+
+    #region Stun and Knockback
+
+    // A public flag to check if the player can be moved
+    public bool IsStunned => m_IsStunned;
+    
+    /// <summary>
+    /// Applies knockback force, stuns the player, and handles the player being invulnerable for a bit
+    /// </summary>
+    /// <param name="knockbackForce">The size of the force to apply</param>
+    /// <param name="knockbackDirection">The direction to apply the force in</param>
+    public void TakeDamageReaction(float knockbackForce, Vector2 knockbackDirection)
+    {
+        // If the player is already currently invulnerable, ignore the damage
+        if (m_IsStunned)
+        {
+            return;
+        }
+        
+        // Stop whatever movement is happening already and then apply the knockback force
+        m_RB.velocity = Vector2.zero; // Stops all the initial momentum (which was causing issues before lol)
+        m_RB.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+        
+        // Play the player-hurt particles
+        m_DamageParticles.Play();
+        
+        // Start the stun and invulnerability coroutine
+        if (m_CStun != null)
+        {
+            StopCoroutine(m_CStun);
+        }
+
+        m_CStun = StartCoroutine(C_DamageStun(m_StunDuration));
+    }
+
+    IEnumerator C_DamageStun(float duration)
+    {
+        m_IsStunned = true;
+
+        float timer = 0f;
+        
+        // Loop for the player to flash-red
+        while (timer < duration)
+        {
+            // Toggle flashing effect
+            m_SpriteRenderer.color = new Color(1, 0.3f, 0.3f, 1);
+            
+            // Add to the timer
+            timer += m_FlashInterval;
+            
+            yield return new WaitForSeconds(m_FlashInterval);
+            
+            // Toggle flashing effect
+            m_SpriteRenderer.color = new Color(1, 1, 1, 1);
+            
+            // Add to the timer
+            timer += m_FlashInterval;
+            
+            yield return new WaitForSeconds(m_FlashInterval);
+        }
+        
+        // Make sure sprite is set back to normal
+        m_SpriteRenderer.color = new Color(1, 1, 1, 1);
+        
+        // Stun and invulnerability are now over
+        m_IsStunned = false;
+        m_CStun = null;
+    }
+    #endregion
     
     #region Movement
     public void SetInMove(float direction)
@@ -98,7 +176,6 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    private bool isStunned = false;
     IEnumerator C_MoveUpdate()
     {
         while (m_IsMoveActive)
@@ -111,31 +188,6 @@ public class CharacterMovement : MonoBehaviour
             {
                 m_PlayerParticles.PlaySystem(m_PlayerParticles.m_RunParticles);
             }
-            
-            /*
-            //if (!isStunned)
-            //{
-            //    m_RB.linearVelocityX = m_MoveSpeed * m_InMove;   
-            //}
-            // If we're actively jumping then we'll want to do an add-force so the jump doesn't feel weird
-            if (m_IsJumpActive)
-            {
-                if (Mathf.Abs(m_RB.linearVelocityX) < m_MoveSpeed)
-                {
-                    // F = m*a, we have the player's velocity, and a mass of 1
-                    m_RB.AddForceX(m_MoveSpeed * m_InMove * m_MoveForceMultiplier, ForceMode2D.Force); 
-                }
-            }
-            else if (Mathf.Abs(m_RB.linearVelocityX) < m_MoveSpeed)
-            {
-                m_RB.AddForceX(m_MoveSpeed * m_InMove * m_MoveForceMultiplier, ForceMode2D.Force);   
-            }
-            else
-            {
-                m_RB.linearVelocityX = m_MoveSpeed * m_InMove;  
-            }
-            */
-            
         }
     }
 
@@ -150,7 +202,10 @@ public class CharacterMovement : MonoBehaviour
 
     #region Jump
     
-    private void ExecuteJump() // When the player ACTUALLY jumps
+    /// <summary>
+    /// When the player ACTUALLY jumps
+    /// </summary>
+    private void ExecuteJump()
     {
         // Jump-force
         m_RB.AddForce(Vector2.up * m_JumpStrength, ForceMode2D.Impulse);
@@ -171,7 +226,10 @@ public class CharacterMovement : MonoBehaviour
         StartCoroutine(C_JumpUpdate());
     }
     
-    public void JumpPerformed() // When the player ATTEMPTS to jump (presses space)
+    /// <summary>
+    /// When the player ATTEMPTS to jump (presses space)
+    /// </summary>
+    public void JumpPerformed()
     {
         // If jump isn't already active, AND if we're grounded, OR we're within coyote-limits: jump immediately
         if ( (m_GroundCheck.m_IsGrounded || m_CanCoyoteJump))
@@ -192,6 +250,9 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Allows for variable jump height
+    /// </summary>
     public void JumpCancelled()
     {
         if (m_RB.linearVelocity.y > 0)

@@ -8,6 +8,7 @@ public class ScoreTracker : MonoBehaviour
     
     [SerializeField] private int m_MaxCoins;
     [SerializeField] private int m_CurrentCoins;
+    [SerializeField] private ParticleSystem m_CoinLossParticles;
     
     void Start()
     {
@@ -56,6 +57,8 @@ public class ScoreTracker : MonoBehaviour
             
             // Invoke the event for the UI
             OnCoinLost?.Invoke(m_CurrentCoins, m_MaxCoins, -m_Change);
+            m_CoinLossParticles.maxParticles = m_Change;
+            m_CoinLossParticles.Play();
         }
     }
 }

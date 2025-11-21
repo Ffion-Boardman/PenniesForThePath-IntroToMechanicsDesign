@@ -49,11 +49,13 @@ public class PlayerController : MonoBehaviour
 
     private void Handle_OnHealthDamage(int currentHealth, int maxHealth, int inboundDamage)
     {
+        SoundManager.PlayRandomSound(SoundType.HURT, 0.5f);
         Debug.Log($"<b><color=grey>[GAME]</color> Current Health is: <color=yellow>{currentHealth}</color>/<color=green>{maxHealth}</color> and Damage received was <color=red>{inboundDamage}</color></b>");
     }
 
     private void Handle_OnPlayerDies(MonoBehaviour causer)
     {
+        SoundManager.PlayRandomSound(SoundType.DEATH, 1);
         Debug.Log($"<b><color=grey>[GAME]</color> Player has <color=red>died</color> due to: <color=yellow>{causer.gameObject.name}</color></b>");
     }
 }

@@ -9,6 +9,7 @@ public class ScoreUI : MonoBehaviour
 
     [SerializeField] private UIDocument m_UIDocument;
     [SerializeField] private string m_LabelName = "ScoreCountLabel";
+    private const string MAX_SCORE_CLASS = "max-score-color";
 
     private void Awake()
     {
@@ -31,7 +32,6 @@ public class ScoreUI : MonoBehaviour
         // Make the UI associate to the coin-lost event
         m_ScoreTracker.OnCoinLost += UpdateScoreDisplay;
         
-        // On initialization, set the initial score display
         UpdateScoreDisplay(m_ScoreTracker.CurrentCoins, m_ScoreTracker.MaxCoins, 0);
     }
 
@@ -48,6 +48,16 @@ public class ScoreUI : MonoBehaviour
     {
         // Format the score as a ratio
         m_ScoreLabel.text = $"{CurrentCoins}/{MaxCoins}";
+        
+        // If the player is at max-coins, change the text colour!
+        if (CurrentCoins >= MaxCoins)
+        {
+            m_ScoreLabel.AddToClassList(MAX_SCORE_CLASS);
+        }
+        else
+        {
+            m_ScoreLabel.RemoveFromClassList(MAX_SCORE_CLASS);
+        }
 
         Debug.Log($"<b><color=grey>[UI]</color> Score display updated to: <color=yellow>{m_ScoreLabel.text}</color></b>");
     }
