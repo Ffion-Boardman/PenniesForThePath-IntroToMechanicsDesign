@@ -11,6 +11,8 @@ public enum SoundType
     HEAL,
     DEATH,
     COIN,
+    UI,
+    MUSIC,
 }
 
 [RequireComponent(typeof(AudioSource)), ExecuteInEditMode]
@@ -20,7 +22,9 @@ public class SoundManager : MonoBehaviour
     // Array of the sound list components
     [SerializeField] private SoundList[] m_SoundList;
     private static SoundManager m_Instance;
+    // This one is specifically for sound-effects
     private AudioSource m_AudioSource;
+    // This one is for music
 
     private void Awake()
     {

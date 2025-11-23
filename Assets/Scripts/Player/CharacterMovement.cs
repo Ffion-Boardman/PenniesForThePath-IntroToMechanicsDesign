@@ -82,9 +82,9 @@ public class CharacterMovement : MonoBehaviour
     /// <summary>
     /// Applies knockback force, stuns the player, and handles the player being invulnerable for a bit
     /// </summary>
-    /// <param name="knockbackForce">The size of the force to apply</param>
-    /// <param name="knockbackDirection">The direction to apply the force in</param>
-    public void TakeDamageReaction(float knockbackForce, Vector2 knockbackDirection)
+    /// <param name="m_KnockbackForce">The size of the force to apply</param>
+    /// <param name="m_KnockbackDirection">The direction to apply the force in</param>
+    public void TakeDamageReaction(float m_KnockbackForce, Vector2 m_KnockbackDirection)
     {
         // If the player is already currently invulnerable, ignore the damage
         if (m_IsStunned)
@@ -92,9 +92,11 @@ public class CharacterMovement : MonoBehaviour
             return;
         }
         
-        // Stop whatever movement is happening already and then apply the knockback force
-        //m_RB.velocity = Vector2.zero; // Stops all the initial momentum (which was causing issues before lol)
-        m_RB.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+        // Make sure the player isn't moving without input
+        //m_RB.linearVelocity = Vector2.zero; // Stops all the initial momentum
+        
+        // Apply the force of the spike onto the player
+        m_RB.AddForce(m_KnockbackDirection * m_KnockbackForce, ForceMode2D.Impulse);
         
         // Play the player-hurt particles
         m_DamageParticles.Play();
@@ -104,24 +106,29 @@ public class CharacterMovement : MonoBehaviour
         {
             StopCoroutine(m_CStun);
         }
-
+        
         m_CStun = StartCoroutine(C_DamageStun(m_StunDuration));
     }
 
-    IEnumerator C_DamageStun(float duration)
+    IEnumerator C_DamageStun(float m_StunFlashDuration)
     {
+        // Stunned-bool
         m_IsStunned = true;
-
-        float timer = 0f;
+        m_Animator.SetBool("isStunned", true);
+        
+        // Jump-bool
+        m_IsJumpActive = true;
+        
+        float m_StunFlashTimer = 0f;
         
         // Loop for the player to flash-red
-        while (timer < duration)
+        while (m_StunFlashTimer < m_StunFlashDuration)
         {
             // Toggle flashing effect
             m_SpriteRenderer.color = new Color(1, 0.5f, 0.5f, 1);
             
             // Add to the timer
-            timer += m_FlashInterval;
+            m_StunFlashTimer += m_FlashInterval;
             
             yield return new WaitForSeconds(m_FlashInterval);
             
@@ -129,10 +136,13 @@ public class CharacterMovement : MonoBehaviour
             m_SpriteRenderer.color = new Color(1, 1, 1, 1);
             
             // Add to the timer
-            timer += m_FlashInterval;
+            m_StunFlashTimer += m_FlashInterval;
             
             yield return new WaitForSeconds(m_FlashInterval);
         }
+        
+        // Jump-animation (for in case the player is no-longer stunned but is still in the air)
+        m_Animator.SetBool("isJumping", !m_GroundCheck.m_IsGrounded);
         
         // Make sure sprite is set back to normal
         m_SpriteRenderer.color = new Color(1, 1, 1, 1);
@@ -144,9 +154,9 @@ public class CharacterMovement : MonoBehaviour
     #endregion
     
     #region Movement
-    public void SetInMove(float direction)
+    public void SetInMove(float m_Direction)
     {
-        m_InMove = direction;
+        m_InMove = m_Direction;
         
         if (m_InMove == 0)
         {
@@ -299,11 +309,13 @@ public class CharacterMovement : MonoBehaviour
             m_IsJumpActive = false;
             m_PlayerJumped?.Invoke(false);
             
-            // Play the landing sound
-            SoundManager.PlayRandomSound(SoundType.LAND, m_LandVolume);
-            
+            // Stun-animation
+            m_Animator.SetBool("isStunned", false);
             // Jump-animation
             m_Animator.SetBool("isJumping", !m_GroundCheck.m_IsGrounded);
+            
+            // Play the landing sound
+            SoundManager.PlayRandomSound(SoundType.LAND, m_LandVolume);
             
             // If the jump-buffer was successfully used, execute a jump!
             if (m_CanBufferJump)
@@ -330,9 +342,14 @@ public class CharacterMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Movement animations
+        // Animation-checks
         m_Animator.SetFloat("xVelocity", Mathf.Abs(m_RB.linearVelocityX));
         m_Animator.SetFloat("yVelocity", m_RB.linearVelocityY);
+        m_Animator.SetBool("isJumping", !m_GroundCheck.m_IsGrounded);
+        if (m_IsStunned == false)
+        {
+            m_Animator.SetBool("isStunned", false);
+        }
         HandleSpriteFlipping();
     }
     

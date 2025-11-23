@@ -1,28 +1,10 @@
 using UnityEngine;
+using System.Diagnostics; // This is needed for any Debug.Assert lines
 
 public class CustomLogger : MonoBehaviour
 {
-    /*
-    string Red = "<b><color=red>";
-    string Orange = "<b><color=orange>";
-    string Yellow = "<b><color=yellow>";
-    string Green = "<b><color=green>";
-    string Blue = "<b><color=blue>";
-    string Purple = "<b><color=purple>";
-    string Pink = "<b><color=pink>";
-    string White = "<b><color=white>";
-    string Grey = "<b><color=grey>";
-    string Black = "<b><color=black>";
-    string CloseColor = "</color></b>";
+    [Header("Colour & Tag Names")] 
+    private const string TAG_ERROR = "<b><color=red>[ERROR]</color></b>";
+    private const string TAG_WARNING = "<b><color=orange>[WARNING]</color></b>";
     
-    string Bold =  "<b>";
-    string CloseBold = "</b>";
-    string Italic = "<i>";
-    string CloseItalic = "</i>";
-    
-    public static void LogReminder(string entry)
-    {
-        Debug.Log($"<color=green><b>Reminder: </b></color> {entry}");
-    }
-    */
 }

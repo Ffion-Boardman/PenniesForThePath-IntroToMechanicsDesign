@@ -1,0 +1,16 @@
+using UnityEngine;
+
+public class PlayerParallaxMove : MonoBehaviour
+{
+    [SerializeField] private Rigidbody2D m_RB;
+    [SerializeField] private float m_MoveSpeed;
+    void Start()
+    {
+        
+    }
+    
+    void FixedUpdate()
+    {
+        m_RB.linearVelocityX = m_MoveSpeed;
+    }
+}

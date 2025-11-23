@@ -6,7 +6,6 @@ public class InputHandler : MonoBehaviour
 {
     [SerializeField] private CharacterMovement m_CharacterMovement;
     private PlayerControls m_ActionMap;
-    
     [SerializeField] private LayerMask m_InteractLayer;
     private void Awake()
     {
