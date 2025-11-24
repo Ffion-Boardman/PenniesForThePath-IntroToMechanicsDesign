@@ -23,30 +23,29 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float m_MoveForceMultiplier;
     [SerializeField] private float m_MoveForceCap;
 	[SerializeField] private float m_JumpStrength;
-    
     private Rigidbody2D m_RB;
-    
     // Movement
     private float m_InMove;
     private PlayerControls m_ActionMap;
     // Movement Update
     private Coroutine m_CMove;
     private bool m_IsMoveActive;
-    
-    // Sprite Flipping (for the animator)
-    private float m_OriginalScaleX;
-    
+    private Coroutine m_CFootstep;
+    private int m_Footstep = 0;
     // Jump Update
     private Coroutine m_CJump;
     private bool m_IsJumpActive = false; 
+    // Sprite Flipping (for the animator)
+    private float m_OriginalScaleX;
     
     /// This event is called for the sake of the Collider-Controller script
     public event Action<bool> m_PlayerJumped;
     
     [Header("Movement Sounds")]
     [SerializeField] [Range(0, 1)] public float m_JumpVolume;
-    [SerializeField] [Range(0, 1)] public float m_FootstepVolume;
     [SerializeField] [Range(0, 1)] public float m_LandVolume;
+    [SerializeField] [Range(0, 1)] public float m_FootstepVolume;
+    [SerializeField] private float m_FootstepSpacing;
 
     [Header("Forgiveness Mechanics")]
     [SerializeField] [Range(0, 0.5f)] private float m_CoyoteTimeThreshold = 0.4f;
@@ -172,6 +171,7 @@ public class CharacterMovement : MonoBehaviour
             m_IsMoveActive = true;
             
             m_CMove = StartCoroutine(C_MoveUpdate());
+            m_CFootstep = StartCoroutine(C_Footsteps());
         }
     }
     
@@ -207,6 +207,25 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    IEnumerator C_Footsteps()
+    {
+        while (m_IsMoveActive)
+        {
+            // We only want footsteps if we're not jumping AND we're not stunned
+            if (!m_IsJumpActive && !IsStunned)
+            {
+                SoundManager.PlaySound(SoundType.FOOTSTEP, m_Footstep, m_FootstepVolume);
+            }
+            
+            // Set the next foostep sound
+            if (m_Footstep == 0) m_Footstep = 1;
+            else if (m_Footstep == 1) m_Footstep = 0;
+            
+            // Wait to repeat the footstep
+            yield return new WaitForSeconds(m_FootstepSpacing);
+        }
+    }
+
     public void MoveCancelled() // When the player stops moving
     {
         m_RB.linearVelocityX = 0;
@@ -216,7 +235,7 @@ public class CharacterMovement : MonoBehaviour
 
     #endregion
 
-    #region Jump
+    #region Jump and Land
     
     private void ExecuteJump() // When the player ACTUALLY jumps
     {
@@ -268,7 +287,7 @@ public class CharacterMovement : MonoBehaviour
         }
     }
     
-    IEnumerator C_JumpUpdate()
+    IEnumerator C_JumpUpdate() // For when the player IS jumping
     {
         while (m_IsJumpActive)
         {
@@ -276,7 +295,7 @@ public class CharacterMovement : MonoBehaviour
             m_Animator.SetBool("isJumping", !m_GroundCheck.m_IsGrounded);
             yield return new WaitForFixedUpdate();
         }
-    } // For when the player IS jumping
+    } 
 
     IEnumerator C_CoyoteTime() // This is the TIMER
     {
@@ -310,6 +329,9 @@ public class CharacterMovement : MonoBehaviour
             // Play the landing sound
             SoundManager.PlayRandomSound(SoundType.LAND, m_LandVolume);
             
+            // Play landing particles
+            m_PlayerParticles.PlaySystem(m_PlayerParticles.m_LandParticles);
+            
             // If the jump-buffer was successfully used, execute a jump!
             if (m_CanBufferJump)
             {
@@ -319,7 +341,7 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    void OnCollisionExit2D(Collision2D collision)
+    void OnCollisionExit2D(Collision2D collision) // For when the player isn't grounded but also isn't jumping
     {
         if (!m_IsJumpActive)
         {
@@ -331,25 +353,17 @@ public class CharacterMovement : MonoBehaviour
             // Execute the Coyote-Timer
             m_CCoyoteTime = StartCoroutine(C_CoyoteTime());
         }
-    } // For when the player isn't grounded but also isn't jumping
+    } 
 
-    private void FixedUpdate()
+    private void FixedUpdate() // Used for animation-parameters
     {
         // Animation-checks
         m_Animator.SetFloat("xVelocity", Mathf.Abs(m_RB.linearVelocityX));
         m_Animator.SetFloat("yVelocity", m_RB.linearVelocityY);
         m_Animator.SetBool("isJumping", !m_GroundCheck.m_IsGrounded);
-        if (m_IsStunned == false)
-        {
-            m_Animator.SetBool("isStunned", false);
-        }
+        if (m_IsStunned == false) { m_Animator.SetBool("isStunned", false); }
         HandleSpriteFlipping();
-    } // Used for animation-parameters
+    }
     
     #endregion
-
-    public Vector2 GetVelocity()
-    {
-        return m_RB.linearVelocity;
-    }
 }

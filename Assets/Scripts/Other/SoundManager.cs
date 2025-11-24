@@ -18,7 +18,6 @@ public enum SoundType
 [RequireComponent(typeof(AudioSource)), ExecuteInEditMode]
 public class SoundManager : MonoBehaviour
 {
-    private CustomLogger CL;
     // Array of the sound list components
     [SerializeField] private SoundList[] m_SoundList;
     private static SoundManager m_Instance;
@@ -36,7 +35,7 @@ public class SoundManager : MonoBehaviour
         m_AudioSource = GetComponent<AudioSource>();
     }
     
-    public static void PlaySound( SoundType sound, int clipIndex, float volume)
+    public static void PlaySound( SoundType sound, int clipIndex, float volume) // For when a specific sound is wanted
     {
         // Get the array of clips for the specified sound-type
         AudioClip[] clips = m_Instance.m_SoundList[(int)sound].sounds;
@@ -56,7 +55,7 @@ public class SoundManager : MonoBehaviour
         }
     }
     
-    public static void PlayRandomSound( SoundType sound, float volume)
+    public static void PlayRandomSound( SoundType sound, float volume) // For when it doesn't matter which sound is played
     {
         // Get the array of clips for the specified sound-type
         AudioClip[] clips = m_Instance.m_SoundList[(int)sound].sounds;
@@ -69,7 +68,7 @@ public class SoundManager : MonoBehaviour
     }
 
     # if UNITY_EDITOR
-    private void OnEnable()
+    private void OnEnable() // This controls the layout of the sound-manager within the inspector
     {
         // Get the names in the SoundType enum
         string[] m_HeaderNames = Enum.GetNames(typeof(SoundType));
@@ -89,6 +88,7 @@ public class SoundManager : MonoBehaviour
 [Serializable]
 public struct SoundList
 {
+    // Now we get to set these Audioclip sounds to the Soundlist!
     public AudioClip[] sounds { get => m_Sounds; }
     [HideInInspector] public string m_HeaderName;
     // Array of sounds

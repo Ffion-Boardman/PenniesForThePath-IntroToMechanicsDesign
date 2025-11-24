@@ -20,9 +20,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CinemachineCamera m_CinemachineCamera;
     private Coroutine m_CDeathRoutine;
 
-    private void Awake()
+    private void Awake() 
     {
-        
+        // Getting the UI
         m_HealthComponent = GetComponent<HealthComponent>();
         m_ScoreTracker = GetComponent<ScoreTracker>();
         
@@ -38,7 +38,6 @@ public class PlayerController : MonoBehaviour
         // Initializing health and Score UI
         if (m_HealthUI != null) { m_HealthUI.Initialize(m_HealthComponent); }
         if (m_ScoreUI != null) { m_ScoreUI.Initialize(m_ScoreTracker); }
-        // Make sure Death-UI is off
         
         // Damage and Death events
         m_HealthComponent.OnDamaged += Handle_OnHealthDamage;
