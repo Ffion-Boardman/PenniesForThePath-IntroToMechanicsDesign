@@ -56,5 +56,11 @@ TagManager:
   - name: Furtherforeground
     uniqueID: 595714547
     locked: 0
+  - name: UI
+    uniqueID: 3088899321
+    locked: 0
+  - name: UI Particles
+    uniqueID: 1216063563
+    locked: 0
   m_RenderingLayers:
   - Default

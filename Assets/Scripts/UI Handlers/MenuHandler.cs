@@ -13,9 +13,13 @@ public class MenuHandler : MonoBehaviour
     private Coroutine m_PlayCoroutine;
     private Coroutine m_ExitCoroutine;
     [SerializeField] private AudioSource m_MusicSource;
+    private Camera m_MainCamera;
     
     private void Awake()
     {
+        // Getting the camera to handle click-particles
+        m_MainCamera = Camera.main;
+        
         m_UIDocument = GetComponent<UIDocument>();
 
         if (m_UIDocument == null)
@@ -40,6 +44,16 @@ public class MenuHandler : MonoBehaviour
         
         // Play the right sound
         SoundManager.PlaySound(SoundType.UI, 0, 1);
+        
+        // Get the location of the click
+        Vector2 m_MousePosition = Mouse.current.position.ReadValue();
+        
+        // Make it Vector3 so that it's visible
+        Vector3 m_WorldPoint = m_MainCamera.ScreenToWorldPoint(new Vector3(m_MousePosition.x, m_MousePosition.y, m_MainCamera.nearClipPlane + 10f));
+        
+        // Play the VFX at the mouse location
+        m_ClickParticles.transform.position = m_WorldPoint;
+        m_ClickParticles.Play();
         
         // Wait for the sound and particles to be done
         yield return new WaitForSeconds(2);

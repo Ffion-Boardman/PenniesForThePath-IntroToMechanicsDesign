@@ -1,0 +1,12 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Menu%20-%20Main/MenuStyles.uss?fileID=7433441132597879392&amp;guid=079756d58745046449d83bf1ac49cc63&amp;type=3#MenuStyles" />
+    <ui:VisualElement name="Page" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.5);">
+        <ui:VisualElement name="Menu" style="flex-grow: 0; top: 10%; align-items: center; justify-content: center; align-self: center; align-content: center; background-color: rgba(89, 89, 89, 0); padding-left: 60px; padding-right: 60px; padding-top: 0; padding-bottom: 0; width: 30%;">
+            <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Sprites/UI/death_ui.png?fileID=-1709455927098890370&amp;guid=5dfc92d9fa6869742901a1da9a47dcce&amp;type=3#death_ui_0&quot;); width: 371px; height: 689px; -unity-background-scale-mode: scale-to-fit; margin-bottom: 30px;" />
+            <ui:VisualElement name="ButtonContainter" style="flex-grow: 1; width: 100%; align-self: center; align-items: center; height: 100%; padding-right: 20px; padding-left: 20px;">
+                <ui:Button text="RETRY" name="Playbtn" class="button" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/Font_RockinRecord.ttf?fileID=12800000&amp;guid=d1247f145d7635248878ae11fdd7b5bb&amp;type=3#Font_RockinRecord&quot;); min-width: 100px; max-width: 200px; font-size: 24px;" />
+                <ui:Button text="QUIT" name="Exitbtn" class="button" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/Font_RockinRecord.ttf?fileID=12800000&amp;guid=d1247f145d7635248878ae11fdd7b5bb&amp;type=3#Font_RockinRecord&quot;); min-width: 100px; max-width: 200px; font-size: 24px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

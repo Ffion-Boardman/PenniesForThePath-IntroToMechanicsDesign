@@ -29,18 +29,6 @@ public class SpikeTrapFloor : MonoBehaviour
 
             // We want to get the contact-normal of the spike so we can reflect the direction of the force along it
             Vector2 m_SpikeNormal = m_Contact.normal;
-
-            // Now we apply any damage and coin loss the player will experience
-            if (collision.transform.TryGetComponent<HealthComponent>(out var healthComponent))
-            {
-                // Apply health loss
-                healthComponent.ApplyDamage(m_Damage, this);
-            }
-            if (collision.transform.TryGetComponent<ScoreTracker>(out var scoreTracker))
-            {
-                // Apply coin loss
-                scoreTracker.ApplyLoss(m_CoinLoss, this);
-            }
             
             // Reflecting the player's velocity along the normal of the spike
             Vector2 m_Reflection = Vector2.Reflect(m_PlayerRB.velocity.normalized, m_SpikeNormal);
@@ -54,6 +42,18 @@ public class SpikeTrapFloor : MonoBehaviour
             
             // Now we can finally apply the impact-force on the player
             characterMovement.TakeDamageReaction(m_DamageForce, m_Reflection.normalized);
+            
+            // Now we apply any damage and coin loss the player will experience
+            if (collision.transform.TryGetComponent<ScoreTracker>(out var scoreTracker))
+            {
+                // Apply coin loss
+                scoreTracker.ApplyLoss(m_CoinLoss, this);
+            }
+            if (collision.transform.TryGetComponent<HealthComponent>(out var healthComponent))
+            {
+                // Apply health loss
+                healthComponent.ApplyDamage(m_Damage, this);
+            }
         }
     }
 }

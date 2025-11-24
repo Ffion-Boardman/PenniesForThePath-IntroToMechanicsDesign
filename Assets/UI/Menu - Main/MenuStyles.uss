@@ -1,0 +1,31 @@
+:root {
+}
+
+.button {
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+    border-bottom-left-radius: 24px;
+    background-color: #9C9C9C;
+    color: white;
+    border-left-color: #929292;
+    border-right-color: #929292;
+    border-top-color: #929292;
+    border-bottom-color: #929292;
+    width: 100%
+}
+
+.button:hover {
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+    border-bottom-left-radius: 24px;
+    background-color: #feae34;
+    color: white;
+    border-left-color: #f7941d;
+    border-right-color: #f7941d;
+    border-top-color: #f7941d;
+    border-bottom-color: #f7941d;
+    transition-duration: 0.2s;
+    width: 120%;
+}

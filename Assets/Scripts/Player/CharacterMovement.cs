@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,12 +14,16 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private Animator m_Animator;
     [SerializeField] private PlayerParticles m_PlayerParticles;
     [SerializeField] private SpriteRenderer m_SpriteRenderer;
+    [SerializeField] private CinemachineCamera m_Camera;
+    private CinemachineBasicMultiChannelPerlin m_CMBMCP;
+    [SerializeField] [Range(1, 3)] private float m_AmplitudeGain;
     
     [Header("Basic Movement")]
     [SerializeField] private float m_MoveSpeed;
     [SerializeField] private float m_MoveForceMultiplier;
     [SerializeField] private float m_MoveForceCap;
 	[SerializeField] private float m_JumpStrength;
+    
     private Rigidbody2D m_RB;
     
     // Movement
@@ -35,9 +40,7 @@ public class CharacterMovement : MonoBehaviour
     private Coroutine m_CJump;
     private bool m_IsJumpActive = false; 
     
-    /// <summary>
     /// This event is called for the sake of the Collider-Controller script
-    /// </summary>
     public event Action<bool> m_PlayerJumped;
     
     [Header("Movement Sounds")]
@@ -72,6 +75,7 @@ public class CharacterMovement : MonoBehaviour
     {
 		m_RB = GetComponent<Rigidbody2D>();
         m_OriginalScaleX = transform.localScale.x;
+        m_CMBMCP = m_Camera.GetComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
     #region Stun and Knockback
@@ -79,21 +83,13 @@ public class CharacterMovement : MonoBehaviour
     // A public flag to check if the player can be moved
     public bool IsStunned => m_IsStunned;
     
-    /// <summary>
-    /// Applies knockback force, stuns the player, and handles the player being invulnerable for a bit
-    /// </summary>
-    /// <param name="m_KnockbackForce">The size of the force to apply</param>
-    /// <param name="m_KnockbackDirection">The direction to apply the force in</param>
-    public void TakeDamageReaction(float m_KnockbackForce, Vector2 m_KnockbackDirection)
+    public void TakeDamageReaction(float m_KnockbackForce, Vector2 m_KnockbackDirection) // Applies knockback force and activates the stun coroutine
     {
         // If the player is already currently invulnerable, ignore the damage
         if (m_IsStunned)
         {
             return;
         }
-        
-        // Make sure the player isn't moving without input
-        //m_RB.linearVelocity = Vector2.zero; // Stops all the initial momentum
         
         // Apply the force of the spike onto the player
         m_RB.AddForce(m_KnockbackDirection * m_KnockbackForce, ForceMode2D.Impulse);
@@ -106,11 +102,10 @@ public class CharacterMovement : MonoBehaviour
         {
             StopCoroutine(m_CStun);
         }
-        
         m_CStun = StartCoroutine(C_DamageStun(m_StunDuration));
     }
 
-    IEnumerator C_DamageStun(float m_StunFlashDuration)
+    IEnumerator C_DamageStun(float m_StunFlashDuration) // Handles the player being stunned, invulnerable, and the visible flash on the sprite during both
     {
         // Stunned-bool
         m_IsStunned = true;
@@ -119,6 +114,10 @@ public class CharacterMovement : MonoBehaviour
         // Jump-bool
         m_IsJumpActive = true;
         
+        // Start camera-shake
+        m_CMBMCP.AmplitudeGain = m_AmplitudeGain;
+        
+        // Flash-timer
         float m_StunFlashTimer = 0f;
         
         // Loop for the player to flash-red
@@ -144,17 +143,21 @@ public class CharacterMovement : MonoBehaviour
         // Jump-animation (for in case the player is no-longer stunned but is still in the air)
         m_Animator.SetBool("isJumping", !m_GroundCheck.m_IsGrounded);
         
-        // Make sure sprite is set back to normal
+        // Make sure sprite's colour is set back to normal
         m_SpriteRenderer.color = new Color(1, 1, 1, 1);
+        
+        // Stop the camera-shake
+        m_CMBMCP.AmplitudeGain = 0f;
         
         // Stun and invulnerability are now over
         m_IsStunned = false;
         m_CStun = null;
     }
+    
     #endregion
     
     #region Movement
-    public void SetInMove(float m_Direction)
+    public void SetInMove(float m_Direction) // Takes the input and applies it to the player movement
     {
         m_InMove = m_Direction;
         
@@ -172,8 +175,7 @@ public class CharacterMovement : MonoBehaviour
         }
     }
     
-    // Flips the sprite for the character-animator
-    private void HandleSpriteFlipping()
+    private void HandleSpriteFlipping() // Flips the sprite for the character-animator
     {
         if (m_InMove > 0) 
         {
@@ -187,7 +189,7 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    IEnumerator C_MoveUpdate()
+    IEnumerator C_MoveUpdate() // For when the player is moving
     {
         while (m_IsMoveActive)
         {
@@ -205,7 +207,7 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    public void MoveCancelled()
+    public void MoveCancelled() // When the player stops moving
     {
         m_RB.linearVelocityX = 0;
         
@@ -216,10 +218,7 @@ public class CharacterMovement : MonoBehaviour
 
     #region Jump
     
-    /// <summary>
-    /// When the player ACTUALLY jumps
-    /// </summary>
-    private void ExecuteJump()
+    private void ExecuteJump() // When the player ACTUALLY jumps
     {
         // Jump-force
         m_RB.AddForce(Vector2.up * m_JumpStrength, ForceMode2D.Impulse);
@@ -240,10 +239,7 @@ public class CharacterMovement : MonoBehaviour
         StartCoroutine(C_JumpUpdate());
     }
     
-    /// <summary>
-    /// When the player ATTEMPTS to jump (presses space)
-    /// </summary>
-    public void JumpPerformed()
+    public void JumpPerformed() // When the player ATTEMPTS to jump (presses space)
     {
         // If jump isn't already active, AND if we're grounded, OR we're within coyote-limits: jump immediately
         if ( (m_GroundCheck.m_IsGrounded || m_CanCoyoteJump))
@@ -263,11 +259,8 @@ public class CharacterMovement : MonoBehaviour
             m_CJumpBuffer = StartCoroutine(C_JumpBuffer());
         }
     }
-
-    /// <summary>
-    /// Allows for variable jump height
-    /// </summary>
-    public void JumpCancelled()
+    
+    public void JumpCancelled() // Allows for variable jump height
     {
         if (m_RB.linearVelocity.y > 0)
         {
@@ -283,7 +276,7 @@ public class CharacterMovement : MonoBehaviour
             m_Animator.SetBool("isJumping", !m_GroundCheck.m_IsGrounded);
             yield return new WaitForFixedUpdate();
         }
-    }
+    } // For when the player IS jumping
 
     IEnumerator C_CoyoteTime() // This is the TIMER
     {
@@ -301,7 +294,7 @@ public class CharacterMovement : MonoBehaviour
         m_CJumpBuffer = null;
     }
     
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision) // For when the player lands
     {
         if (m_GroundCheck.m_IsGrounded)
         {
@@ -338,7 +331,7 @@ public class CharacterMovement : MonoBehaviour
             // Execute the Coyote-Timer
             m_CCoyoteTime = StartCoroutine(C_CoyoteTime());
         }
-    }
+    } // For when the player isn't grounded but also isn't jumping
 
     private void FixedUpdate()
     {
@@ -351,7 +344,7 @@ public class CharacterMovement : MonoBehaviour
             m_Animator.SetBool("isStunned", false);
         }
         HandleSpriteFlipping();
-    }
+    } // Used for animation-parameters
     
     #endregion
 
