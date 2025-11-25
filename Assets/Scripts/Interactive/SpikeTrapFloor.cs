@@ -34,8 +34,7 @@ public class SpikeTrapFloor : MonoBehaviour
             Vector3 m_ContactPoint = collision.contacts[0].point;
             Debug.DrawLine(m_ContactPoint, m_Reflection, Color.red, 10f);
             
-            // Compare that angle against the x-axis of the World
-            
+            // Add a little extra to the upwards angle so we reduce the risk of them hitting a wall
             m_Reflection.y = m_Reflection.y + m_UpwardsAngleFix;
             Debug.DrawLine(m_ContactPoint, m_Reflection, Color.yellow, 10f);
             
