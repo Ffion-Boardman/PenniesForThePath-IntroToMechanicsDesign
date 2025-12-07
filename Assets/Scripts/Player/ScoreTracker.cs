@@ -24,6 +24,7 @@ public class ScoreTracker : MonoBehaviour
         Debug.Log("<b><color=grey>[GAME]</color> <color=yellow>Coin collected!</color></b>");
         
         // Play the right coin-sound
+        if (m_CurrentCoins == 10) { m_CurrentCoins--; }
         SoundManager.PlaySound(SoundType.COIN, m_CurrentCoins, 1);
         
         // Increase the score, capping it at the maximum

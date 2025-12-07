@@ -138130,7 +138130,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 671527e04474e414bb998ed1ed8423a9, type: 2}
+  m_Material: {fileID: 6200000, guid: f494fb95dd1f3664c8d47df98871a568, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -143866,7 +143866,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Damage: 1
-  m_DamageForce: 3
+  m_DamageForce: 2
   m_CoinLoss: 3
 --- !u!1 &1107830934
 GameObject:
@@ -190861,9 +190861,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Damage: 1
-  m_DamageForce: 10
+  m_DamageForce: 8
   m_CoinLoss: 3
-  m_UpwardsAngleFix: 1.5
+  m_UpwardsAngleFix: 3
 --- !u!1 &1736808977
 GameObject:
   m_ObjectHideFlags: 0
@@ -194058,7 +194058,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 671527e04474e414bb998ed1ed8423a9, type: 2}
+  m_Material: {fileID: 6200000, guid: f494fb95dd1f3664c8d47df98871a568, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

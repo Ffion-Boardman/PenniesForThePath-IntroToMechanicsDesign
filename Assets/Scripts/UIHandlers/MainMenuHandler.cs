@@ -4,14 +4,12 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-public class DeathMenuHandler : MonoBehaviour
+public class MainMenuHandler : MonoBehaviour
 {
     [SerializeField] private ParticleSystem m_ClickParticles;
     private UIDocument m_UIDocument;
-    private Button m_Retry;
-    private Button m_Quit;
+    private Button m_Play;
     private Coroutine m_PlayCoroutine;
-    private Coroutine m_ExitCoroutine;
     [SerializeField] private AudioSource m_MusicSource;
     private Camera m_MainCamera;
     
@@ -27,8 +25,7 @@ public class DeathMenuHandler : MonoBehaviour
             Debug.LogError("No IDocument found!");
         }
         
-        m_Retry = m_UIDocument.rootVisualElement.Q<Button>("Playbtn");
-        m_Quit = m_UIDocument.rootVisualElement.Q<Button>("Exitbtn");
+        m_Play = m_UIDocument.rootVisualElement.Q<Button>("Playbtn");
     }
 
     private void Handle_PlayGame(ClickEvent clickEvent)
@@ -62,22 +59,13 @@ public class DeathMenuHandler : MonoBehaviour
         SceneManager.LoadScene("Sandbox");
     }
 
-    private void Handle_Exit(ClickEvent clickEvent)
-    {
-        Debug.Log("Exit pressed!");
-        SoundManager.PlaySound(SoundType.UI, 1, 1);
-        Application.Quit();
-    }
-
     private void OnEnable()
     {
-        m_Retry.RegisterCallback<ClickEvent>(Handle_PlayGame);
-        m_Quit.RegisterCallback<ClickEvent>(Handle_Exit);
+        m_Play.RegisterCallback<ClickEvent>(Handle_PlayGame);
     }
 
     private void OnDisable()
     {
-        m_Retry.UnregisterCallback<ClickEvent>(Handle_PlayGame);
-        m_Quit.UnregisterCallback<ClickEvent>(Handle_Exit);
+        m_Play.UnregisterCallback<ClickEvent>(Handle_PlayGame);
     }
 }

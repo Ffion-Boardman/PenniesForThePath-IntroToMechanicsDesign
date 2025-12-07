@@ -4,12 +4,12 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-public class MenuHandler : MonoBehaviour
+public class DeathMenuHandler : MonoBehaviour
 {
     [SerializeField] private ParticleSystem m_ClickParticles;
     private UIDocument m_UIDocument;
-    private Button m_Play;
-    private Button m_Exit;
+    private Button m_Retry;
+    private Button m_Quit;
     private Coroutine m_PlayCoroutine;
     private Coroutine m_ExitCoroutine;
     [SerializeField] private AudioSource m_MusicSource;
@@ -27,8 +27,8 @@ public class MenuHandler : MonoBehaviour
             Debug.LogError("No IDocument found!");
         }
         
-        m_Play = m_UIDocument.rootVisualElement.Q<Button>("Playbtn");
-        m_Exit = m_UIDocument.rootVisualElement.Q<Button>("Exitbtn");
+        m_Retry = m_UIDocument.rootVisualElement.Q<Button>("Playbtn");
+        m_Quit = m_UIDocument.rootVisualElement.Q<Button>("Exitbtn");
     }
 
     private void Handle_PlayGame(ClickEvent clickEvent)
@@ -66,18 +66,18 @@ public class MenuHandler : MonoBehaviour
     {
         Debug.Log("Exit pressed!");
         SoundManager.PlaySound(SoundType.UI, 1, 1);
-        Application.Quit();
+        SceneManager.LoadScene("Main Menu");
     }
 
     private void OnEnable()
     {
-        m_Play.RegisterCallback<ClickEvent>(Handle_PlayGame);
-        m_Exit.RegisterCallback<ClickEvent>(Handle_Exit);
+        m_Retry.RegisterCallback<ClickEvent>(Handle_PlayGame);
+        m_Quit.RegisterCallback<ClickEvent>(Handle_Exit);
     }
 
     private void OnDisable()
     {
-        m_Play.UnregisterCallback<ClickEvent>(Handle_PlayGame);
-        m_Exit.UnregisterCallback<ClickEvent>(Handle_Exit);
+        m_Retry.UnregisterCallback<ClickEvent>(Handle_PlayGame);
+        m_Quit.UnregisterCallback<ClickEvent>(Handle_Exit);
     }
 }
