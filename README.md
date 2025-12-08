@@ -14,11 +14,11 @@ Check out the [project-overview](https://www.ffionboardman.com/game-projects/pen
 ## Programming Highlights
 ### Player Controller
 The Player Controller was intentionally designed to avoid using the Update() loop as much as possible, to practice optimization methods in my code.  
-Link: [CharacterMovement.cpp](Assets/Scripts/Player/CharacterMovement.cs)
+Link: [CharacterMovement.cs](Assets/Scripts/Player/CharacterMovement.cs)
 ### Dynamic UI
 This was my first time using Unity's UI Toolkit instead of the original UI system, with intentions of ensuring the UI is clean and dynamically created when the game is started.  
-Link: [HealthUI.cpp](Assets/Scripts/UIHandlers/HealthUI.cs)  
-Link: [ScoreUI.cpp](Assets/Scripts/UIHandlers/ScoreUI.cs)  
+Link: [HealthUI.cs](Assets/Scripts/UIHandlers/HealthUI.cs)  
+Link: [ScoreUI.cs](Assets/Scripts/UIHandlers/ScoreUI.cs)  
 ### Sound System
 The Sound-System's code is mainly focused on creating a designer-friendly system for storing and displaying the code within the inspector.    
 Link: [SoundManager.cs](Assets/Scripts/Other/SoundManager.cs)
