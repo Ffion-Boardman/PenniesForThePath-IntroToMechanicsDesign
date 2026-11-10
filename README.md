@@ -1,5 +1,5 @@
 # Pennies for the Path - Introduction to Mechanics Design
-![Static Badge](https://img.shields.io/badge/Status%3A-On_Portfolio-green?style=flat-square&link=https%3A%2F%2Fwww.ffionboardman.com%2Fgame-projects%2Fsimple-scene)
+![Static Badge](https://img.shields.io/badge/Status%3A-On_Portfolio-green?style=flat-square)
 ![Static Badge](https://img.shields.io/badge/Unity-grey?style=flat-square&logo=unity)
 ![Static Badge](https://img.shields.io/badge/Version-6000.17.1f-lightgrey?style=flat-square&logo=unity)
 ![Static Badge](https://img.shields.io/badge/Language-C%23-lightgrey?style=flat-square&logo=csharp)
